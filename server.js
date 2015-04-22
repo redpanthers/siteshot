@@ -10,11 +10,19 @@ if (casper.cli.args.length < 1) {
 /* Viewport sizes */
 var viewportSizes = [
     [320,480],
-    [320,564],
-    [600,800],
-    [1024,980],
-    [1280,980],
-    [1440,2000]
+    [320.533],
+    [320,568],
+    [360,640],
+    [375,667],
+    [384,640],
+    [400,640],
+    [424,753],
+    [480,854],
+    [960,720],
+    [966,604],
+    [1280,720],
+    [1280,800],
+    [1920,1080]
 ];
 /* Directory to save screenshots abstracted from entered url*/
 var saveDir = url.replace(/[^a-zA-Z0-9]/gi, '-').replace(/^https?-+/, ''); 
