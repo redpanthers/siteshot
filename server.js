@@ -9,7 +9,7 @@ if (urlArray.length <= 0) {
 }
 var viewportSizes = [
     [320,480],
-    [320.533],
+    [320,533],
     [320,568],
     [360,640],
     [375,667],
@@ -33,7 +33,7 @@ casper.start().eachThen(urlArray, function(response) {
 			this.viewport(viewportSize[0], viewportSize[1]);
 		});
 		this.thenOpen(response.data, function() {
-      this.wait(50000);
+      this.wait(30000);
     });
     this.then(function(){
     	var FPfilename = saveDir + '/fullpage-' + viewportSize[0] + "x" + viewportSize[1] + ".png";
