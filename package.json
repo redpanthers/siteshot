@@ -1,0 +1,18 @@
+{
+  "name": "site-shot",
+  "version": "1.0.0",
+  "description": "Generate screenshots to test responsiveness of sites",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@code.redpanthers.co:varghese/site-shot.git"
+  },
+  "author": "Varghese",
+  "license": "ISC",
+  "dependencies": {
+    "casper": "^0.1.1"
+  }
+}
