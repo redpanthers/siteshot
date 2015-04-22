@@ -1,13 +1,12 @@
-var casper = require("casper").create();
-if (casper.cli.args.length < 1) {
+var fs = require('fs');
+var data = fs.read('./url.txt');
+var casper = require('casper').create();	         	
+var urlArray = data.split('\n');
+if (urlArray.length <= 0) {
   casper
-    .echo("Usage: $ casperjs screenshots.js http://example.com")
-    .exit(1)
-  ;
-} else {
-	var url = casper.cli.args[0];
+    .echo("Specify URL's in url.txt")
+    .exit(1);
 }
-/* Viewport sizes */
 var viewportSizes = [
     [320,480],
     [320.533],
@@ -24,36 +23,22 @@ var viewportSizes = [
     [1280,800],
     [1920,1080]
 ];
-/* Directory to save screenshots abstracted from entered url*/
-var saveDir = url.replace(/[^a-zA-Z0-9]/gi, '-').replace(/^https?-+/, ''); 
-casper.start();
+casper.start().eachThen(urlArray, function(response) {
 
-casper.each(viewportSizes, function(self, viewportSize, i) {
- 
-    // set two vars for the viewport height and width as we loop through each item in the viewport array
-    var width = viewportSize[0],
-        height = viewportSize[1];
- 
-    //give some time for the page to load
-    casper.wait(50000, function() {
- 
-        //set the viewport to the desired height and width
-        this.viewport(width, height);
- 
-        casper.thenOpen(url, function() {
-            this.echo('Opening at ' + width);
- 
-            //Set up two vars, one for the fullpage save, one for the actual viewport save
-            var FPfilename = saveDir + '/fullpage-' + width + ".png";
-            //var ACfilename = saveDir + '/' + width + '-' + height + ".png";
- 
-            //Capture selector captures the whole body
-            this.captureSelector(FPfilename, 'body');
- 
-            //capture snaps a defined selection of the page
-            //this.capture(ACfilename,{top: 0,left: 0,width: width, height: height});
-            //this.echo('snapshot taken');
-        });
+	/* Directory to save screenshots abstracted from entered url*/
+		var saveDir = response.data.replace( /[^a-zA-Z0-9]/gi, '-' ).replace(/^https?-+/, ''); 
+
+	this.each(viewportSizes, function(casper, viewportSize) {
+		this.then(function(){
+			this.viewport(viewportSize[0], viewportSize[1]);
+		});
+		this.thenOpen(response.data, function() {
+      this.wait(50000);
     });
+    this.then(function(){
+    	var FPfilename = saveDir + '/fullpage-' + viewportSize[0] + "x" + viewportSize[1] + ".png";
+	    this.captureSelector(FPfilename, 'body');
+    });
+	});
 });
 casper.run();
