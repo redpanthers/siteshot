@@ -25,9 +25,11 @@ var viewportSizes = [
     [1920,1080] /* Full HD */
 ];
 casper.start().eachThen(urlArray, function(response) {
+	var currentDate = new Date();
+	var dateTime="/"+currentDate.getUTCDate() + "-"+(currentDate.getUTCMonth()+1) + "-" + currentDate.getFullYear() + " @ " + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
 
 	/* Directory to save screenshots abstracted from entered url*/
-		var saveDir = response.data.replace( /[^a-zA-Z0-9]/gi, '-' ).replace(/^https?-+/, ''); 
+		var saveDir = "screenshots/"+response.data.replace( /[^a-zA-Z0-9]/gi, '-' ).replace(/^https?-+/, '').concat(dateTime.toString()); 
 
 	this.each(viewportSizes, function(casper, viewportSize) {
 		this.then(function(){
